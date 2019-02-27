@@ -1,10 +1,10 @@
 import React from 'react'
 
-class SetTab extends React.Component {
+class Tabs extends React.Component {
   constructor(props) {
     super(props)
 
-    this.elements = this.props.children.map((item) => {
+    const elements = this.props.children.map((item) => {
       return {
         text: item.props.children,
         title: item.props.title,
@@ -12,22 +12,20 @@ class SetTab extends React.Component {
     })
 
     this.state = {
-      text: this.elements[0].text,
       isActiveTab: 0,
-      element: this.elements,
+      element: elements,
     }
 
     this.clickOnButton = this.clickOnButton.bind(this);
   }
 
-  clickOnButton({ index, item }) {
+  clickOnButton({ index }) {
     this.setState({
-      text: this.elements[index].text,
       isActiveTab: index,
     })
 
-    console.log("Title: " + item.title +
-      ", Text: " + this.elements[index].text
+    console.log("Title: " + this.state.element[index].title +
+      ", Text: " + this.state.element[index].text
     )
   }
 
@@ -39,7 +37,7 @@ class SetTab extends React.Component {
             <button
               className={this.state.isActiveTab === index ? "tab active" : "tab"}
               key={index}
-              onClick={() => this.clickOnButton({ index, item })}
+              onClick={() => this.clickOnButton({ index })}
             >
               {item.title}
             </button>
@@ -47,11 +45,11 @@ class SetTab extends React.Component {
           )}
         </div>
         <div className="tab_content">
-          <p className="text">{this.state.text}</p>
+          <p className="text">{this.state.element[this.state.isActiveTab].text}</p>
         </div>
       </div>
     )
   }
 }
 
-export default SetTab
+export default Tabs
